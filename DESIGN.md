@@ -19,7 +19,7 @@ En veldig fancy, men litt frustrerende side på `tingtartid.no`. Den ser ut som 
 
 ## Milepæler
 1. ✅ (2026-11-07) **Skjelett og uttrykk:** forside, én side per modul, språkvalg (NO/EN), panel-SVG-ene som produktbilder, «Kjøp»-knapper som lenker videre, høydekurver som bakgrunn. Ren HTML og CSS, litt JS for språkvalget. Ses lokalt.
-2. **Tekst:** fjas og tekniske data for alle modulene, på begge språk.
+2. ✅ (2026-11-07) **Tekst:** fjas og tekniske data for alle modulene, på begge språk.  Tellinger fra panelgeneratorene i allemanns; strømtrekk er ikke målt og står som «ikke målt». Høydekurver i bakgrunnen flyttet til milepæl 3.
 3. **Bilder:** kart/terreng fra høydefeltet, produktfoto-render, stemningsbilder fra ComfyUI.
 4. **Ut på nett:** repo `GroggyGrunt/tingtartid` (offentlig), GitHub Pages, DNS i Cloudflare for `tingtartid.no` og `www` (spør før), HTTPS.
 

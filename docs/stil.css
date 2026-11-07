@@ -58,7 +58,7 @@ a { color: var(--gull); }             /* gull = ut */
 
 .rack {
   display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start;
-  gap: 2px; padding: 0 16px 10vh;
+  gap: 2px; padding: 0 16px 6vh;
 }
 .modul {
   /* bredden følger HP, så panelene står i riktig forhold til hverandre */
@@ -84,6 +84,8 @@ a { color: var(--gull); }             /* gull = ut */
 .bilde { margin: 0; position: sticky; top: 4vh; }
 .bilde img { height: min(84vh, 760px); display: block; filter: drop-shadow(0 24px 40px rgb(0 0 0 / .7)); }
 .produkt.u1 { grid-template-columns: minmax(0, 1fr); }
+.produkt.u1 .info { max-width: 38rem; margin: 0 auto; width: 100%; }
+.produkt.u1 .info h1 { margin-bottom: 1.2rem; }
 .produkt.u1 .bilde { position: static; }
 .produkt.u1 .bilde img { height: auto; width: min(100%, 900px); margin: 0 auto; }
 .info h1 { margin: 0; color: var(--silk); }
@@ -121,3 +123,8 @@ a { color: var(--gull); }             /* gull = ut */
 .kurver { font-family: ui-monospace, Menlo, Consolas, monospace; }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* tekst (milepæl 2) */
+.linje { font-size: 1.25rem; color: var(--silk); margin: 0 0 1rem; font-style: italic; }
+.info p:not(.pris):not(.linje) { color: var(--dempet); }
+.om { max-width: 38rem; margin: 0 auto; padding: 0 16px 12vh; text-align: center; color: var(--dempet); }
