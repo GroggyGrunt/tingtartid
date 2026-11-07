@@ -5,6 +5,8 @@ Hver tekst er (norsk, engelsk). Begge ligger i HTML-en, språkvalget skjuler den
 Tellingene av kontakter og kontroller er hentet fra panelgeneratorene i allemanns (2026-11-07).
 """
 import html, json
+
+import terreng
 from pathlib import Path
 
 ROT = Path(__file__).parent
@@ -158,9 +160,16 @@ T = {  # faste tekster
            "Every panel is a piece of the same map. The contour lines meet across the edges, whatever order you put "
            "them in. Every module is named after something in the terrain and marked with the height of a mountain. "
            "The rest you will find out on the way."),
+    "terrenget": ("Fra terrenget", "From the terrain"),
     "analog": ("analog", "analogue"), "digital": ("digital", "digital"), "blank": ("blank", "blank"),
     "fot": ("Allemannsretten gjelder. Ingenting her er til salgs.", "The right to roam applies. Nothing here is for sale."),
 }
+# stemningsbilder (ComfyUI, Z-Image, lages på nytt med stemning.sh): fil, bildetekst
+STEMNING = [
+    ("varde", ("Ingen vet hvem som la den første steinen.", "Nobody knows who laid the first stone.")),
+    ("skog", ("Her begynner det. Eller slutter.", "This is where it begins. Or ends.")),
+    ("os", ("Her slutter kartet.", "This is where the map ends.")),
+]
 DELER = {"knott": ("knott", "knotter", "knob", "knobs"), "enkoder": ("enkoder", "enkodere", "encoder", "encoders"),
          "bryter": ("bryter", "brytere", "switch", "switches"), "knapp": ("knapp", "knapper", "button", "buttons")}
 
@@ -186,7 +195,7 @@ def trace(tekst, klasse="trace"):
             f'<g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-linecap="round">{poly}</g></svg>')
 
 
-def side(tittel, innhold, beskrivelse):
+def side(tittel, innhold, beskrivelse, skript=""):
     return f"""<!doctype html>
 <html lang="no">
 <head>
@@ -197,7 +206,7 @@ def side(tittel, innhold, beskrivelse):
 <link rel="icon" href="varde.svg">
 <link rel="stylesheet" href="stil.css">
 <script src="sprak.js"></script>
-</head>
+{skript}</head>
 <body>
 <header class="topp">
   <a class="merke" href="./">{trace("Allemanns")}</a>
@@ -234,12 +243,18 @@ def forside():
         f'<a class="modul u{m["u"]}" href="{m["navn"]}.html" style="--hp:{m["hp"]}">'
         f'<img src="bilder/{m["navn"]}.svg" alt="{m["navn"]}"></a>'
         for m in MODULER)
+    stemning = "".join(f'<figure><img src="bilder/stemning-{f}.jpg" alt="" loading="lazy">'
+                       f'<figcaption>{t(tekst)}</figcaption></figure>' for f, tekst in STEMNING)
     innhold = f"""<main>
 <section class="helt">
   <h1>{trace("Allemanns", "trace stor")}</h1>
   {t(T["ingress"], "p")}
 </section>
 <section class="rack" aria-label="Moduler">{rack}</section>
+<section class="stemning" aria-label="Terreng">
+  <h2>{t(T["terrenget"])}</h2>
+  <div class="bilder">{stemning}</div>
+</section>
 <section class="om">{t(T["om"], "p")}</section>
 </main>"""
     return side("Allemanns", innhold, T["ingress"][1])
@@ -262,7 +277,7 @@ def produkt(i):
     ]
     spek = "".join(f"<tr><th>{t(k)}</th><td>{v}</td></tr>" for k, v in rader)
     innhold = f"""<main class="produkt u{m["u"]}">
-<figure class="bilde"><img src="bilder/{m["navn"]}.svg" alt="{m["navn"]}"></figure>
+<figure class="bilde"><span class="vipp"><img src="bilder/{m["navn"]}.svg" alt="{m["navn"]}"></span></figure>
 <section class="info">
   <h1>{trace(m["navn"], "trace stor")}</h1>
   {f'<p class="pris">{kote(m)}</p>' if m["kote"] is not None else ""}
@@ -274,7 +289,7 @@ def produkt(i):
   <a class="tilbake" href="./">{t(T["tilbake"])}</a>
 </section>
 </main>"""
-    return side(f'{m["navn"]} · Allemanns', innhold, m["linje"][1])
+    return side(f'{m["navn"]} · Allemanns', innhold, m["linje"][1], '<script src="vipp.js"></script>\n')
 
 
 def varde_ikon():
@@ -289,6 +304,9 @@ def main():
     for i, m in enumerate(MODULER):
         (UT / f'{m["navn"]}.html').write_text(produkt(i))
     (UT / "varde.svg").write_text(varde_ikon())
+    # bak racket: kurvene møter panelkantene (104 HP); bak produktsidene: bare terreng
+    (UT / "bilder/terreng.svg").write_text(terreng.svg(7, 1000, hull=sum(m["hp"] for m in MODULER if m["u"] == 3) * 5.08 / 2))
+    (UT / "bilder/terreng-side.svg").write_text(terreng.svg(11, 700))
     (UT / "CNAME").write_text("tingtartid.no\n")
     print(f"bygget {len(MODULER) + 1} sider i {UT}")
 
