@@ -21,7 +21,7 @@ En veldig fancy, men litt frustrerende side på `tingtartid.no`. Den ser ut som 
 1. ✅ (2026-11-07) **Skjelett og uttrykk:** forside, én side per modul, språkvalg (NO/EN), panel-SVG-ene som produktbilder, «Kjøp»-knapper som lenker videre, høydekurver som bakgrunn. Ren HTML og CSS, litt JS for språkvalget. Ses lokalt.
 2. ✅ (2026-11-07) **Tekst:** fjas og tekniske data for alle modulene, på begge språk.  Tellinger fra panelgeneratorene i allemanns; strømtrekk er ikke målt og står som «ikke målt». Høydekurver i bakgrunnen flyttet til milepæl 3.
 3. ✅ (2026-11-07) **Bilder:** høydekurver bak racket som møter panelkantene og bak produktsidene (`terreng.py`); produktfoto som 3D-vipping med gullglans i nettleseren (`vipp.js`) i stedet for rendrede bilder; tre stemningsbilder fra ComfyUI (varde, skog, os; `stemning.sh`). Et bilde av en «modul på stein» ble forkastet: modellen lager en annen, rar maskin med falsk logo.
-4. **Ut på nett:** repo `GroggyGrunt/tingtartid` (offentlig), GitHub Pages, DNS i Cloudflare for `tingtartid.no` og `www` (spør før), HTTPS.
+4. ✅ (2026-11-07) **Ut på nett:** repo `GroggyGrunt/tingtartid` (offentlig), GitHub Pages, DNS i Cloudflare for `tingtartid.no` og `www` (spør før), HTTPS. Pages bygger fra `main:/docs`, så `git push` publiserer. DNS: apex A 185.199.108–111.153 og AAAA 2606:50c0:8000–8003::153, `www` CNAME `groggygrunt.github.io`, alle uten proxy.
 
 ## Åpne spørsmål
 Ingen før milepæl 1.
